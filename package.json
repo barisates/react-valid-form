@@ -1,0 +1,45 @@
+{
+  "name": "react-valid-form",
+  "version": "1.0.0",
+  "description": "React form validation component.",
+  "main": "index.js",
+  "scripts": {
+    "test": "react-scripts test",
+    "build": "./node_modules/.bin/babel src/index.js --out-file index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barisates/react-valid-form.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "react-component",
+    "form",
+    "validation",
+    "validator",
+    "form-validation",
+    "form-validator",
+    "input-validation"
+  ],
+  "author": {
+    "name": "Barış Ateş",
+    "email": "info@barisates.com",
+    "url": "http://barisates.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barisates/react-valid-form/issues"
+  },
+  "homepage": "https://github.com/barisates/react-valid-form#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "react-scripts": "3.1.1"
+  },
+  "dependencies": {
+    "react": "^16.9.0"
+  }
+}
