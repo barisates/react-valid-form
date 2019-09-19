@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import '/index.css';
 
+const warnings = {
+    required: ""
+}
+
 const rules = {
     required: (value) => {
         return (value !== null && value !== undefined && value !== "")
@@ -22,11 +26,13 @@ export class ValidForm extends Component {
 
         this.formRef = React.createRef();
     }
+    componentDidMount() {
+        
+    }
     onChange(e) {
 
     }
     render() {
-
         return (
             <form ref={this.formRef} onChange={(e) => this.onChange(e)}>
                 {this.props.children}
