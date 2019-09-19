@@ -4,11 +4,11 @@ import './App.css';
 
 const warnings = {
   required: "This field is required.",
-  numeric: "",
+  numeric: "This field must be numeric.",
   min: "",
   max: "",
   minlength: "This field must be at least 3 characters.",
-  maxlength: ""
+  maxlength: "This field must not exceed 3 characters."
 }
 
 const rules = {
@@ -16,37 +16,44 @@ const rules = {
     valid: (value) => {
       return (value !== null && value !== undefined && value !== "")
     },
-    warning: warnings.required
+    warning: () => "This field is required."
   },
-  numeric: {
+  number: {
     valid: (value) => {
       return (!isNaN(value))
     },
-    warning: warnings.numeric
+    warning: () => "This field must be numeric."
   },
   min: {
     valid: (value, min) => {
       return (value != null && value >= min)
     },
-    warning: warnings.min
+    warning: (min) => `The maximum value of this field can be ${min}.`
   },
   max: {
     valid: (value, max) => {
       return (value != null && value <= max)
     },
-    warning: warnings.max
+    warning: (max) => `The maximum value of this field can be ${max}.`
   },
   minlength: {
     valid: (value, length) => {
       return (value != null && value.toString().length >= length)
     },
-    warning: warnings.minlength
+    warning: (length) => `This field must be at least ${length} characters.`
   },
   maxlength: {
     valid: (value, length) => {
       return (value != null && value.toString().length <= length)
     },
-    warning: warnings.maxLength
+    warning: (length) => `This field must not exceed ${length} characters.`
+  },
+  email: {
+    valid: (value) => {
+      const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regEx.test(String(value).toLowerCase());
+    },
+    warning: () => "Enter a valid email address."
   },
   // OWN
   keys: () => (Object.keys(rules).map(item => item.toLowerCase()))
@@ -57,31 +64,45 @@ const tags = ["INPUT", "SELECT", "TEXTAREA"]
 const utilities = {
   isElement: (tag) => (tags.includes(tag)),
   elements: (formRef) => (Array.from(formRef.current.elements).filter(filter => utilities.isElement(filter.tagName))),
-  validation: (element) => (Object.values(element.attributes).filter(filter => rules.keys().includes(filter.name.toLowerCase()))),
+  validation: (element) => {
+
+    console.log(element.attributes, "-----------------")
+
+    var typ = document.createAttribute(element.type);
+    typ.value = "";
+    element.attributes.setNamedItem(typ);
+
+    console.log(element.attributes, "-----------------")
+    let validates = Object.values(element.attributes).filter(filter => rules.keys().includes(filter.name.toLowerCase()))
+
+
+
+    return validates;
+  },
   invalid: (element, warning) => {
 
     element.classList.add("invalid");
 
-    let rvf = element.parentNode.getElementsByTagName("rvf")[0];
+    let span = element.parentNode.getElementsByClassName("warning-invalid")[0];
 
-    if (!rvf) {
-      rvf = document.createElement('rvf');
+    if (!span) {
+      span = document.createElement('span');
+      span.className = "warning-invalid";
     }
 
-    rvf.innerHTML = warning;
+    span.innerHTML = warning;
 
-    element.parentNode.appendChild(rvf);
-
+    element.parentNode.appendChild(span);
 
   },
   valid: (element) => {
 
     element.classList.remove("invalid");
 
-    let rvf = element.parentNode.getElementsByTagName("rvf")[0];
+    let span = element.parentNode.getElementsByClassName("warning-invalid")[0];
 
-    if (rvf)
-      element.parentNode.removeChild(rvf);
+    if (span)
+      element.parentNode.removeChild(span);
 
   }
 }
@@ -129,7 +150,7 @@ export class ValidForm extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    let focus = true;
+    let valid = true;
 
     this.formElements.forEach(element => {
 
@@ -142,11 +163,13 @@ export class ValidForm extends Component {
         const rule = rules[validate.name];
 
         if (!rule.valid(elementValue, validate.value)) {
-          utilities.invalid(element, rule.warning);
-          if (focus) {
+
+          utilities.invalid(element, rule.warning(validate.value));
+
+          if (valid)
             element.focus();
-            focus = false;
-          }
+
+          valid = false;
 
           break;
         }
@@ -154,19 +177,10 @@ export class ValidForm extends Component {
         utilities.valid(element);
       }
 
-
-
     });
 
-
-
-
-    let valid = false,
-      data = "hasan";
-
-
-
-    this.props.onSubmit(e.target, this.state.form, valid);
+    if (this.props.onSubmit)
+      this.props.onSubmit(e.target, this.state.form, valid);
 
     return false;
   }
@@ -190,7 +204,6 @@ class App extends Component {
   onSubmit(form, data, valid) {
 
     console.log(form, data, valid, " ------ form");
-
   }
   onResponse(json) {
     console.log(json, " ------ json");
@@ -202,6 +215,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
+          <ValidForm>
+            <button type="submit">Send</button>
+          </ValidForm>
           <ValidForm action="https://httpbin.org/post" method="post" onSubmit={(form, data, valid) => this.onSubmit(form, data, valid)}>
             <div className="row">
               <div className="col-md-4 offset-md-4">
@@ -209,11 +225,11 @@ class App extends Component {
                 <div className="row">
                   <div className="form-group col-md-6">
                     <label htmlFor="firstname">First name</label>
-                    <input type="text" className="form-control" id="firstname" name="firstname" placeholder="Enter first name" required /*maxLength="10" minLength="5" max="4"*/ />
+                    <input type="text" className="form-control" id="firstname" name="firstname" placeholder="Enter first name" required number="true" /*maxLength="10" minLength="5" max="4"*/ />
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="lastname">Last name</label>
-                    <input type="text" className="form-control" id="lastname" name="lastname" placeholder="Enter last name" required minLength="3" />
+                    <input type="number" className="form-control" id="lastname" name="lastname" placeholder="Enter last name" required minLength="3" />
                   </div>
                 </div>
                 <div className="row">
@@ -225,7 +241,7 @@ class App extends Component {
                 <div className="row">
                   <div className="form-group col-md-12">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" name="password" placeholder="Password" autoComplete="current-password" />
+                    <input type="password" className="form-control" id="password" name="password" placeholder="Password" autoComplete="current-password" minLength="6" />
                   </div>
                 </div>
                 <div className="row">
@@ -240,7 +256,8 @@ class App extends Component {
                 </div>
                 <div className="form-group form-check">
                   <input type="checkbox" className="form-check-input" id="termsofservice" name="termsofservice" />
-                  <label className="form-check-label" htmlFor="termsofservice">I accept the <a href="#terms">Terms of Service.</a></label>
+                  <label className="form-check-label" htmlFor="termsofservice">I accept the <a href="#terms">Terms of Service.
+                  </a></label>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit Form Fetch</button>
               </div>

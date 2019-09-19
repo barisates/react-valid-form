@@ -48,14 +48,14 @@
   box-shadow: none;
 }
 
-rvf {
+.warning-invalid {
   font-size: 12px;
     color: rgba(146, 0, 0, 0.9);
     display: inline-block;
     white-space: nowrap;
     
 }
-rvf::before {
+.warning-invalid::before {
   content: '* ';
 }
 
