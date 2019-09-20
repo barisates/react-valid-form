@@ -3,6 +3,7 @@ import './index.css';
 
 /* Utilities */
 const config = {
+  submitValid: true,
   warning: {
     invalid: "invalid-field",
     field: "invalid-field-warning"
@@ -47,11 +48,12 @@ const utilities = {
   invalid: (element, warning) => {
 
     // get warning field
-    let span = element.parentNode.getElementsByClassName(config.warning.field)[0];
+    let span = document.getElementById(`${element.name}-invalid-field`);
 
     // create warning field if not exist
     if (!span) {
       span = document.createElement('span');
+      span.id = `${element.name}-invalid-field`;
       span.className = config.warning.field;
     }
 
@@ -64,7 +66,7 @@ const utilities = {
   valid: (element) => {
 
     // remove warning field if exist
-    const span = element.parentNode.getElementsByClassName(config.warning.field)[0];
+    const span = document.getElementById(`${element.name}-invalid-field`);
 
     if (span)
       element.parentNode.removeChild(span);
@@ -233,11 +235,13 @@ export default class ValidForm extends Component {
 
     if (this.props.onSubmit)
       this.props.onSubmit(e.target, this.state.form, valid);
+    else if (config.submitValid && valid)
+      e.target.submit();
 
     return false;
   }
   render() {
-    const { onSubmit, onChange, ...props } = this.props;
+    const { onSubmit, onChange, ref, ...props } = this.props;
 
     return (
       <form {...props} noValidate ref={this.formRef} onChange={(e) => this.onChange(e)} onSubmit={(e) => this.onSubmit(e)}>

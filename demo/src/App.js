@@ -9,12 +9,17 @@ class App extends Component {
     console.log(form, " | FORM");
     console.log(data, " | DATA");
     console.log(valid, " | VALID");
+
+    if (valid) {
+      // FETCH
+      form.submit();
+    }
   }
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <ValidForm onSubmit={(form, data, valid) => this.onSubmit(form, data, valid)}>
+          <ValidForm action="https://httpbin.org/post" method="post">
             <div className="row">
               <div className="col-md-4 offset-md-4">
                 <h5 className="mb-3">Validation Examples</h5>
@@ -74,7 +79,7 @@ class App extends Component {
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="textarea">Textarea Required <small>[required, maxLength="255"]</small></label>
-                    <textarea id="textarea" name="textarea" class="form-control" rows="1" placeholder="Enter text" required maxLength="255"></textarea>
+                    <textarea id="textarea" name="textarea" className="form-control" rows="1" placeholder="Enter text" required maxLength="255"></textarea>
                   </div>
                 </div>
                 <div className="row pt-3">
@@ -90,11 +95,11 @@ class App extends Component {
                     <div className="ml-1">
                       <div className="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="radio1" name="radio" className="custom-control-input" />
-                        <label className="custom-control-label" htmlFor="genderMale">Radio 1</label>
+                        <label className="custom-control-label" htmlFor="radio1">Radio 1</label>
                       </div>
                       <div className="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="radio2" name="radio" className="custom-control-input" required />
-                        <label className="custom-control-label" htmlFor="genderFemale">Radio 2</label>
+                        <label className="custom-control-label" htmlFor="radio2">Radio 2</label>
                       </div>
                     </div>
                   </div>

@@ -45,6 +45,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 /* Utilities */
 var config = {
+  submitValid: true,
   warning: {
     invalid: "invalid-field",
     field: "invalid-field-warning"
@@ -79,10 +80,11 @@ var utilities = {
   },
   invalid: function invalid(element, warning) {
     // get warning field
-    var span = element.parentNode.getElementsByClassName(config.warning.field)[0]; // create warning field if not exist
+    var span = document.getElementById("".concat(element.name, "-invalid-field")); // create warning field if not exist
 
     if (!span) {
       span = document.createElement('span');
+      span.id = "".concat(element.name, "-invalid-field");
       span.className = config.warning.field;
     }
 
@@ -93,7 +95,7 @@ var utilities = {
   },
   valid: function valid(element) {
     // remove warning field if exist
-    var span = element.parentNode.getElementsByClassName(config.warning.field)[0];
+    var span = document.getElementById("".concat(element.name, "-invalid-field"));
     if (span) element.parentNode.removeChild(span); // remove invalid class
 
     element.classList.remove(config.warning.invalid);
@@ -295,7 +297,7 @@ function (_Component) {
           }
         }
       });
-      if (this.props.onSubmit) this.props.onSubmit(e.target, this.state.form, valid);
+      if (this.props.onSubmit) this.props.onSubmit(e.target, this.state.form, valid);else if (config.submitValid && valid) e.target.submit();
       return false;
     }
   }, {
@@ -306,7 +308,8 @@ function (_Component) {
       var _this$props = this.props,
           onSubmit = _this$props.onSubmit,
           onChange = _this$props.onChange,
-          props = _objectWithoutProperties(_this$props, ["onSubmit", "onChange"]);
+          ref = _this$props.ref,
+          props = _objectWithoutProperties(_this$props, ["onSubmit", "onChange", "ref"]);
 
       return _react["default"].createElement("form", _extends({}, props, {
         noValidate: true,
