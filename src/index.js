@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+
 import './index.css';
 
 /* Utilities */
 const config = {
-  submitValid: true,
   warning: {
     invalid: "invalid-field",
     field: "invalid-field-warning"
@@ -148,7 +148,6 @@ export const Rules = {
 };
 
 
-
 export default class ValidForm extends Component {
   constructor(props) {
     super(props)
@@ -235,7 +234,8 @@ export default class ValidForm extends Component {
 
     if (this.props.onSubmit)
       this.props.onSubmit(e.target, this.state.form, valid);
-    else if (config.submitValid && valid)
+
+    if (!this.props.nosubmit && valid)
       e.target.submit();
 
     return false;

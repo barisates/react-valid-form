@@ -45,7 +45,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 /* Utilities */
 var config = {
-  submitValid: true,
   warning: {
     invalid: "invalid-field",
     field: "invalid-field-warning"
@@ -297,7 +296,8 @@ function (_Component) {
           }
         }
       });
-      if (this.props.onSubmit) this.props.onSubmit(e.target, this.state.form, valid);else if (config.submitValid && valid) e.target.submit();
+      if (this.props.onSubmit) this.props.onSubmit(e.target, this.state.form, valid);
+      if (!this.props.nosubmit && valid) e.target.submit();
       return false;
     }
   }, {
