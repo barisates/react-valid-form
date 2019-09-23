@@ -11,7 +11,7 @@ React form validation component.
 #### Install with NPM:
 
 ```
-$ npm install react-valid-form
+$ npm install react-valid-form-component
 ```
 
 #### Usage
