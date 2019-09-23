@@ -15,9 +15,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ValidForm action="https://httpbin.org/post" method="post" nosubmit onSubmit={(form, data, valid) => onSubmit(form, data, valid)}>
+        <ValidForm action="https://httpbin.org/post" method="post" nosubmit novalid onSubmit={(form, data, valid) => onSubmit(form, data, valid)}>
           <div className="row">
-            <div className="col-md-4 offset-md-4">
+            <div className="col-md-10 offset-md-1">
               <h5 className="mb-3">Validation Examples</h5>
 
               <div className="row pt-3">

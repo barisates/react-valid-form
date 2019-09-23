@@ -232,8 +232,9 @@ export default class ValidForm extends Component {
 
     });
 
-    if (this.props.onSubmit)
+    if (this.props.onSubmit && (this.props.novalid || (!this.props.novalid && valid)))
       this.props.onSubmit(e.target, this.state.form, valid);
+    
 
     if (!this.props.nosubmit && valid)
       e.target.submit();
