@@ -138,7 +138,7 @@ export default App;
 
 ```nosubmit``` Disable auto submit.
 
-```novalid``` "onSubmit" event is only triggered when the form is valid.
+```novalid``` "onSubmit" event is also triggered when the form is not valid.
 
 ----
 ```onSubmit={(form, data, valid)}``` When the form is submitted, it is triggered.
