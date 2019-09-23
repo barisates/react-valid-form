@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/barisates/react-valid-form/issues"
   },
-  "homepage": "https://github.com/barisates/react-valid-form#readme",
+  "homepage": "https://barisates.github.io/react-valid-form/",
   "devDependencies": {
     "@babel/cli": "^7.6.0",
     "@babel/core": "^7.6.0",
