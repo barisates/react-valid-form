@@ -1,5 +1,5 @@
 import React from 'react';
-import ValidForm from 'react-valid-form';
+import ValidForm from 'react-valid-form-component';
 import './App.css';
 
 
