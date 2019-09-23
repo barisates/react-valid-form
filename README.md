@@ -202,11 +202,11 @@ Warnings.customRule = (params) => `This field is custom rule ${params}.`
  - http://barisates.com
  - [github/barisates](https://github.com/barisates "github/barisates")
 
-[npm-image]:https://img.shields.io/npm/v/react-valid-form.svg
-[npm-url]:https://www.npmjs.com/package/react-valid-form
+[npm-image]:https://img.shields.io/npm/v/react-valid-form-component.svg
+[npm-url]:https://www.npmjs.com/package/react-valid-form-component
 [travis-image]:https://travis-ci.org/barisates/react-valid-form.svg?branch=master
 [travis-url]:https://travis-ci.org/barisates/react-valid-form
 [david-image]:https://david-dm.org/barisates/react-valid-form.svg
 [david-url]:https://david-dm.org/barisates/react-valid-form
-[bundlephobia-image]:https://badgen.net/bundlephobia/minzip/react-valid-form
-[bundlephobia-url]:https://bundlephobia.com/result?p=react-valid-form
+[bundlephobia-image]:https://badgen.net/bundlephobia/minzip/react-valid-form-component
+[bundlephobia-url]:https://bundlephobia.com/result?p=react-valid-form-component
