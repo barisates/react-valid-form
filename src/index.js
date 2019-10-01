@@ -59,6 +59,7 @@ const utilities = {
 
     span.innerHTML = warning;
     element.parentNode.appendChild(span);
+    //element.insertAdjacentElement('afterend', span);
 
     // add invalid class
     element.classList.add(config.warning.invalid);

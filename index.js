@@ -88,7 +88,8 @@ var utilities = {
     }
 
     span.innerHTML = warning;
-    element.parentNode.appendChild(span); // add invalid class
+    element.parentNode.appendChild(span); //element.insertAdjacentElement('afterend', span);
+    // add invalid class
 
     element.classList.add(config.warning.invalid);
   },
