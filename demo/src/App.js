@@ -82,20 +82,21 @@ function App() {
                 <div className="form-group form-check col-md-6">
                   <label htmlFor="country">Checkbox Required <small>[required]</small></label>
                   <div className="custom-control custom-checkbox">
-                    <input type="checkbox" className="custom-control-input" id="checkbox" name="checkbox" required />
                     <label className="custom-control-label" htmlFor="checkbox">I accept the <a href="#terms">Terms of Service.</a></label>
+                    <input type="checkbox" className="custom-control-input" id="checkbox" name="checkbox" required />
                   </div>
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="gender">Radio Required <small>[required]</small></label>
                   <div className="ml-1">
                     <div className="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="radio1" name="radio" className="custom-control-input" />
                       <label className="custom-control-label" htmlFor="radio1">Radio 1</label>
+                      <input type="radio" id="radio1" name="radio" className="custom-control-input" />
+
                     </div>
                     <div className="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="radio2" name="radio" className="custom-control-input" required />
                       <label className="custom-control-label" htmlFor="radio2">Radio 2</label>
+                      <input type="radio" id="radio2" name="radio" className="custom-control-input" required />
                     </div>
                   </div>
                 </div>

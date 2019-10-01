@@ -1,6 +1,6 @@
 {
   "name": "react-valid-form-component",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React form validation component.",
   "main": "index.js",
   "scripts": {

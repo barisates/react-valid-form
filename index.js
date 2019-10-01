@@ -88,8 +88,12 @@ var utilities = {
     }
 
     span.innerHTML = warning;
-    element.parentNode.appendChild(span); //element.insertAdjacentElement('afterend', span);
-    // add invalid class
+    /*
+    'element.parentNode' property needs a container <div>...</div> element, so it has been replaced with the insertAdjacentElement property.
+    element.parentNode.appendChild(span);
+    */
+
+    element.insertAdjacentElement('afterend', span); // add invalid class
 
     element.classList.add(config.warning.invalid);
   },
