@@ -1,12 +1,14 @@
 {
   "name": "react-valid-form-component",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "React form validation component.",
   "main": "index.js",
   "scripts": {
     "test": "react-scripts test",
     "build": "./node_modules/.bin/babel src --out-file index.js",
-    "minify": "./node_modules/.bin/babel --minified src --out-file index.min.js "
+    "minify": "./node_modules/.bin/babel --minified src --out-file index.min.js ",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -38,6 +40,12 @@
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^5.2.1",
+    "@storybook/addon-console": "^1.2.1",
+    "@storybook/addon-links": "^5.2.1",
+    "@storybook/addons": "^5.2.1",
+    "@storybook/react": "^5.2.1",
+    "babel-loader": "^8.0.6",
     "react-dom": "latest",
     "react-scripts": "3.1.1"
   },
