@@ -5,9 +5,11 @@ import Warnings from './warnings';
 import Rules from './rules';
 import './index.css';
 
+
 export default class ValidForm extends Component {
   constructor(props) {
     super(props);
+
 
     this.state = {
       form: {},
@@ -104,7 +106,7 @@ export default class ValidForm extends Component {
   }
 
   render() {
-    const { onSubmit, onChange, ref, children, ...props } = this.props;
+    const { onSubmit, onChange, ref, children, novalid, nosubmit, ...props } = this.props;
     return (
       <form {...props} noValidate ref={this.formRef} onChange={e => this.onChange(e)} onSubmit={e => this.onSubmit(e)}>
         {children}
@@ -113,12 +115,11 @@ export default class ValidForm extends Component {
   }
 }
 
-
 ValidForm.propTypes = {
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
   novalid: PropTypes.bool,
   nosubmit: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
   ref: PropTypes.any,
   children: PropTypes.node,
 };
@@ -131,3 +132,4 @@ ValidForm.defaultProps = {
   ref: null,
   children: null,
 };
+
