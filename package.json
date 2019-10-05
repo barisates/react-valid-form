@@ -1,6 +1,6 @@
 {
   "name": "react-valid-form-component",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "React form validation component.",
   "main": "dist/index.js",
   "scripts": {
@@ -74,12 +74,12 @@
     "prop-types": "^15.7.2",
     "react-dom": "latest",
     "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0"
-  },
-  "dependencies": {
+    "stylelint-config-standard": "^18.3.0",
     "babel-eslint": "^10.0.3",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "jest": "^24.9.0",
+    "jest": "^24.9.0"
+  },
+  "dependencies": {
     "react": "^16.9.0"
   }
 }
