@@ -132,4 +132,3 @@ ValidForm.defaultProps = {
   ref: null,
   children: null,
 };
-

@@ -1,11 +1,11 @@
 {
   "name": "react-valid-form-component",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "React form validation component.",
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run storybook",
-    "test": "react-scripts test",
+    "test": "jest",
     "build": "npm run lint && babel src --out-dir dist --copy-files",
     "build:minify": "npm run lint && babel --minified src --out-dir dist --copy-files",
     "storybook": "start-storybook -p 6006",
@@ -13,6 +13,20 @@
     "lint": "npm run lint:css && npm run lint:js",
     "lint:css": "stylelint ./src/**/*.css",
     "lint:js": "eslint ./src/**/*.js"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/(index|*.stories).js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/demo"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file.mock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/style.mock.js"
+    }
   },
   "repository": {
     "type": "git",
@@ -57,13 +71,15 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jest": "^22.15.2",
     "eslint-plugin-react": "^7.14.3",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0",
+    "prop-types": "^15.7.2",
     "react-dom": "latest",
-    "react-scripts": "3.1.1",
-    "prop-types": "^15.7.2"
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0"
   },
   "dependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "jest": "^24.9.0",
     "react": "^16.9.0"
   }
 }

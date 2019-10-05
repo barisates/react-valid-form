@@ -169,7 +169,9 @@ function (_Component) {
           onChange = _this$props2.onChange,
           ref = _this$props2.ref,
           children = _this$props2.children,
-          props = _objectWithoutProperties(_this$props2, ["onSubmit", "onChange", "ref", "children"]);
+          novalid = _this$props2.novalid,
+          nosubmit = _this$props2.nosubmit,
+          props = _objectWithoutProperties(_this$props2, ["onSubmit", "onChange", "ref", "children", "novalid", "nosubmit"]);
 
       return _react["default"].createElement("form", _extends({}, props, {
         noValidate: true,
@@ -189,10 +191,10 @@ function (_Component) {
 
 exports["default"] = ValidForm;
 ValidForm.propTypes = {
-  onSubmit: _propTypes["default"].func,
-  onChange: _propTypes["default"].func,
   novalid: _propTypes["default"].bool,
   nosubmit: _propTypes["default"].bool,
+  onSubmit: _propTypes["default"].func,
+  onChange: _propTypes["default"].func,
   ref: _propTypes["default"].any,
   children: _propTypes["default"].node
 };
