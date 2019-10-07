@@ -15,10 +15,6 @@
     "lint:js": "eslint ./src/**/*.js"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/**/(index|*.stories).js"
-    ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/demo"

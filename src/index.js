@@ -78,28 +78,21 @@ export default class ValidForm extends Component {
         // set field valid
         Utilities.valid(element);
       });
-      // Replace ^^
-      // for (let rule of validationRules) {
-      //   // check rule
-      //   if (!rule.valid(elementValue, rule.value)) {
-      //     // set field invalid
-      //     Utilities.invalid(element, rule.warning(rule.value));
-      //     if (valid) element.focus();
-      //     valid = false;
-      //     break;
-      //   }
-      //   // set field valid
-      //   Utilities.valid(element);
-      // }
     });
-    const { onSubmit, novalid, nosubmit } = this.props;
+
+    const { onSubmit, novalid, nosubmit, fetch } = this.props;
 
     if (onSubmit && (novalid || (!novalid && valid))) {
       onSubmit(e.target, form, valid);
     }
 
     if (!nosubmit && valid) {
-      e.target.submit();
+      if (fetch) {
+        // TODO: FETCH
+
+      } else {
+        e.target.submit();
+      }
     }
 
     return false;
@@ -122,6 +115,8 @@ ValidForm.propTypes = {
   onChange: PropTypes.func,
   ref: PropTypes.any,
   children: PropTypes.node,
+  method: PropTypes.string,
+  fetch: PropTypes.bool,
 };
 
 ValidForm.defaultProps = {
@@ -131,4 +126,6 @@ ValidForm.defaultProps = {
   nosubmit: false,
   ref: null,
   children: null,
+  method: '',
+  fetch: false,
 };
