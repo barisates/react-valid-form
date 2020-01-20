@@ -37,7 +37,7 @@ You can follow the details about the form with ```onSubmit={(form, data, valid)}
 ```jsx
 // App.js
 import React from 'react';
-import ValidForm from 'react-valid-form'
+import ValidForm from 'react-valid-form-component'
 
 function App() {
     return (
@@ -78,7 +78,7 @@ Once the form is validated, you can send the data manually.
 ```jsx
 // App.js
 import React from 'react';
-import ValidForm from 'react-valid-form'
+import ValidForm from 'react-valid-form-component'
 
 function App() {
     const onSubmit = (form, data, valid) => {

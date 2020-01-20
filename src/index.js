@@ -10,7 +10,6 @@ export default class ValidForm extends Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
       form: {},
     };
@@ -36,6 +35,8 @@ export default class ValidForm extends Component {
   onChange(e) {
     const element = e.target;
 
+    const { onChange } = this.props;
+
     // is it form field?
     if (Utilities.formFields(element.tagName)) {
       // checkbox value
@@ -45,6 +46,10 @@ export default class ValidForm extends Component {
       this.setState(prevState => ({
         form: { ...prevState.form, [element.name]: value },
       }));
+    }
+
+    if (onChange) {
+      onChange(e);
     }
   }
 
@@ -100,6 +105,7 @@ export default class ValidForm extends Component {
 
   render() {
     const { onSubmit, onChange, ref, children, novalid, nosubmit, ...props } = this.props;
+
     return (
       <form {...props} noValidate ref={this.formRef} onChange={e => this.onChange(e)} onSubmit={e => this.onSubmit(e)}>
         {children}
