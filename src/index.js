@@ -19,17 +19,16 @@ export default class ValidForm extends Component {
   }
 
   componentDidMount() {
-    // get form fields from Ref
-    this.formElements = Utilities.elements(this.formRef);
-    const form = {};
-    // set default null
-    this.formElements.forEach(element => {
-      form[element.name] = null;
-    });
+    this.setDefaultValue();
+  }
 
-    this.setState({
-      form,
-    });
+  componentDidUpdate(prevProps) {
+    const { data: prevData } = prevProps;
+    const { data } = this.props;
+
+    if (JSON.stringify(prevData) !== JSON.stringify(data)) {
+      this.setDefaultValue();
+    }
   }
 
   onChange(e) {
@@ -103,6 +102,24 @@ export default class ValidForm extends Component {
     return false;
   }
 
+  setDefaultValue() {
+    // get form fields from Ref
+    this.formElements = Utilities.elements(this.formRef);
+
+    const { data } = this.props;
+
+    const form = {};
+    // set default null
+    this.formElements.forEach(element => {
+      form[element.name] = data[element.name];
+      document.getElementById(`${element.id}`).value = (data[element.name] || '');
+    });
+
+    this.setState({
+      form,
+    });
+  }
+
   render() {
     const { onSubmit, onChange, ref, children, novalid, nosubmit, ...props } = this.props;
 
@@ -123,6 +140,7 @@ ValidForm.propTypes = {
   children: PropTypes.node,
   method: PropTypes.string,
   fetch: PropTypes.bool,
+  data: PropTypes.object,
 };
 
 ValidForm.defaultProps = {
@@ -134,4 +152,5 @@ ValidForm.defaultProps = {
   children: null,
   method: '',
   fetch: false,
+  data: {},
 };

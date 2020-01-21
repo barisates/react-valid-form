@@ -134,13 +134,15 @@ function App() {
 }
 export default App;
 ```
-##### Props & Events
+##### Props
 
 ```nosubmit``` Disable auto submit.
 
 ```novalid``` "onSubmit" event is also triggered when the form is not valid.
 
-----
+```data``` Default form elements value.
+
+##### Events
 ```onSubmit={(form, data, valid)}``` When the form is submitted, it is triggered.
 
 - ```form``` : Html form elemet.
