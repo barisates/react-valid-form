@@ -75,21 +75,23 @@ function (_Component) {
   _createClass(ValidForm, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      // get form fields from Ref
-      this.formElements = _utilities["default"].elements(this.formRef);
-      var form = {}; // set default null
+      this.setDefaultValue();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var prevData = prevProps.data;
+      var data = this.props.data;
 
-      this.formElements.forEach(function (element) {
-        form[element.name] = null;
-      });
-      this.setState({
-        form: form
-      });
+      if (JSON.stringify(prevData) !== JSON.stringify(data)) {
+        this.setDefaultValue();
+      }
     }
   }, {
     key: "onChange",
     value: function onChange(e) {
-      var element = e.target; // is it form field?
+      var element = e.target;
+      var onChange = this.props.onChange; // is it form field?
 
       if (_utilities["default"].formFields(element.tagName)) {
         // checkbox value
@@ -100,6 +102,10 @@ function (_Component) {
             form: _objectSpread({}, prevState.form, _defineProperty({}, element.name, value))
           };
         });
+      }
+
+      if (onChange) {
+        onChange(e);
       }
     }
   }, {
@@ -130,34 +136,42 @@ function (_Component) {
 
 
           _utilities["default"].valid(element);
-        }); // Replace ^^
-        // for (let rule of validationRules) {
-        //   // check rule
-        //   if (!rule.valid(elementValue, rule.value)) {
-        //     // set field invalid
-        //     Utilities.invalid(element, rule.warning(rule.value));
-        //     if (valid) element.focus();
-        //     valid = false;
-        //     break;
-        //   }
-        //   // set field valid
-        //   Utilities.valid(element);
-        // }
+        });
       });
       var _this$props = this.props,
           onSubmit = _this$props.onSubmit,
           novalid = _this$props.novalid,
-          nosubmit = _this$props.nosubmit;
+          nosubmit = _this$props.nosubmit,
+          fetch = _this$props.fetch;
 
       if (onSubmit && (novalid || !novalid && valid)) {
         onSubmit(e.target, form, valid);
       }
 
       if (!nosubmit && valid) {
-        e.target.submit();
+        if (fetch) {// TODO: FETCH
+        } else {
+          e.target.submit();
+        }
       }
 
       return false;
+    }
+  }, {
+    key: "setDefaultValue",
+    value: function setDefaultValue() {
+      // get form fields from Ref
+      this.formElements = _utilities["default"].elements(this.formRef);
+      var data = this.props.data;
+      var form = {}; // set default null
+
+      this.formElements.forEach(function (element) {
+        form[element.name] = data[element.name];
+        document.getElementById("".concat(element.id)).value = data[element.name] || '';
+      });
+      this.setState({
+        form: form
+      });
     }
   }, {
     key: "render",
@@ -196,7 +210,10 @@ ValidForm.propTypes = {
   onSubmit: _propTypes["default"].func,
   onChange: _propTypes["default"].func,
   ref: _propTypes["default"].any,
-  children: _propTypes["default"].node
+  children: _propTypes["default"].node,
+  method: _propTypes["default"].string,
+  fetch: _propTypes["default"].bool,
+  data: _propTypes["default"].object
 };
 ValidForm.defaultProps = {
   onSubmit: null,
@@ -204,5 +221,8 @@ ValidForm.defaultProps = {
   novalid: false,
   nosubmit: false,
   ref: null,
-  children: null
+  children: null,
+  method: '',
+  fetch: false,
+  data: {}
 };
