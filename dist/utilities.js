@@ -18,15 +18,21 @@ var Utilities = {
     var tags = ['INPUT', 'SELECT', 'TEXTAREA'];
     return tags.includes(tag);
   },
+  formType: function formType(type) {
+    // hidden field exclude
+    var types = ['hidden'];
+    return !types.includes(type);
+  },
   // get form fields from Ref
   elements: function elements(formRef) {
     return Array.from(formRef.current.elements).filter(function (filter) {
-      return Utilities.formFields(filter.tagName);
+      return Utilities.formFields(filter.tagName) && Utilities.formType(filter.type);
     });
   },
   validation: function validation(element, rules, warnings) {
     // add form field type to attributes.
-    element.attributes.setNamedItem(document.createAttribute(element.type)); // filter validation rules from form field attributes.
+    element.attributes.setNamedItem(document.createAttribute(element.type)); // console.log(element.attributes, element.id);
+    // filter validation rules from form field attributes.
 
     return Object.values(element.attributes).filter(function (filter) {
       return rules.keys().includes(filter.name.toLowerCase());
@@ -40,12 +46,13 @@ var Utilities = {
     });
   },
   invalid: function invalid(element, warning) {
+    var reactSelect = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
     // get warning field
-    var span = document.getElementById("".concat(element.name, "-invalid-field")); // create warning field if not exist
+    var span = document.getElementById("".concat(element.name || element.id, "-invalid-field")); // create warning field if not exist
 
     if (!span) {
       span = document.createElement('span');
-      span.id = "".concat(element.name, "-invalid-field");
+      span.id = "".concat(element.name || element.id, "-invalid-field");
       span.className = config.warning.field;
     }
 
@@ -55,20 +62,35 @@ var Utilities = {
     element.parentNode.appendChild(span);
     */
 
-    element.insertAdjacentElement('afterend', span); // add invalid class
+    Utilities.parentElement(element, reactSelect).insertAdjacentElement('afterend', span); // add invalid class
 
-    element.classList.add(config.warning.invalid);
+    Utilities.parentElement(element, reactSelect, true).classList.add(config.warning.invalid);
   },
   valid: function valid(element) {
+    var reactSelect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     // remove warning field if exist
-    var span = document.getElementById("".concat(element.name, "-invalid-field"));
+    var span = document.getElementById("".concat(element.name || element.id, "-invalid-field"));
 
     if (span) {
-      element.parentNode.removeChild(span);
+      Utilities.parentElement(element, reactSelect).parentNode.removeChild(span);
     } // remove invalid class
 
 
     element.classList.remove(config.warning.invalid);
+  },
+  parentElement: function parentElement(element) {
+    var reactSelect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var parentClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    if (reactSelect && parentClass) {
+      return element.parentNode.parentNode.parentNode.parentNode;
+    }
+
+    if (reactSelect && !parentClass) {
+      return element.parentNode.parentNode.parentNode.parentNode.parentNode;
+    }
+
+    return element;
   }
 };
 var _default = Utilities;

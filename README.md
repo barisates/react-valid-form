@@ -197,6 +197,26 @@ Warnings.customRule = (params) => `This field is custom rule ${params}.`
 // using
 <input type="text" name="validation" id="validation" customRule />
 ```
+##### React Select
+To use required validation with [react-select](https://github.com/jedwatson/react-select "react-select") component.
+
+```jsx
+<Select
+  name="reactSelect"
+  inputId="reactSelect"
+  className="react-select-valid"
+  options={[
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
+    { label: 'Option 3', value: '3' },
+  ]}
+/>
+```
+- Add **react-select-valid** to the component as **className** for validation.
+- Fill in the component's **inputID** and **name** property.
+
+- If you don't want to validate, set the **inputId** property to **no-validation**.
+
 ------------
 #### Author
 

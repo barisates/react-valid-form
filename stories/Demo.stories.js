@@ -4,7 +4,9 @@ import './css/bootstrap.min.css';
 import './css/demo.css';
 
 /* Component Imports */
+import Select from 'react-select';
 import ValidForm from '../src';
+
 
 export default {
   title: 'Demo',
@@ -141,6 +143,24 @@ export const Demo = () => {
                       </div>
                     </div>
                   </label>
+                </div>
+              </div>
+              <div className="row pt-3">
+                <div className="form-group form-check col-md-6">
+                  <label htmlFor="select">
+                    React Select
+                    <small>[required]</small>
+                  </label>
+                  <Select
+                    name="reactSelect"
+                    inputId="reactSelect"
+                    className="react-select-valid"
+                    options={[
+                      { label: 'Option 1', value: '1' },
+                      { label: 'Option 2', value: '2' },
+                      { label: 'Option 3', value: '3' },
+                    ]}
+                  />
                 </div>
               </div>
               <button type="submit" className="btn btn-primary">Submit Form</button>

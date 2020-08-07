@@ -5,7 +5,6 @@ import Warnings from './warnings';
 import Rules from './rules';
 import './index.css';
 
-
 export default class ValidForm extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +15,7 @@ export default class ValidForm extends Component {
 
     this.formRef = React.createRef();
     this.formElements = [];
+    this.onReactSelectChange = this.onReactSelectChange.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +52,12 @@ export default class ValidForm extends Component {
     }
   }
 
+  onReactSelectChange(selected, element) {
+    this.setState(prevState => ({
+      form: { ...prevState.form, [element.name]: selected.value },
+    }));
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -63,6 +69,15 @@ export default class ValidForm extends Component {
     const { form } = this.state;
 
     this.formElements.forEach(element => {
+      // for react-select validation
+      if (!element.name && element.id && element.id !== 'no-validation') {
+        if (!Rules.required(form[element.id])) {
+          Utilities.invalid(element, Warnings.required(), true);
+          return;
+        }
+        Utilities.valid(element, true);
+        return;
+      }
       // get form field value
       const elementValue = form[element.name];
 
@@ -84,19 +99,14 @@ export default class ValidForm extends Component {
       });
     });
 
-    const { onSubmit, novalid, nosubmit, fetch } = this.props;
+    const { onSubmit, novalid, nosubmit } = this.props;
 
     if (onSubmit && (novalid || (!novalid && valid))) {
       onSubmit(e.target, form, valid);
     }
 
     if (!nosubmit && valid) {
-      if (fetch) {
-        // TODO: FETCH
-
-      } else {
-        e.target.submit();
-      }
+      e.target.submit();
     }
 
     return false;
@@ -111,12 +121,31 @@ export default class ValidForm extends Component {
     const form = {};
     // set default null
     this.formElements.forEach(element => {
-      form[element.name] = data[element.name];
-      document.getElementById(`${element.id}`).value = (data[element.name] || '');
+      const elementName = element.name || element.id;
+
+      form[elementName] = data[elementName];
+
+      const getElement = document.getElementById(`${element.id}`);
+
+      if (getElement) {
+        getElement.value = (data[elementName] || '');
+      }
     });
 
     this.setState({
       form,
+    });
+  }
+
+  recursiveCloneChildren(children) {
+    return React.Children.map(children, child => {
+      if (!React.isValidElement(child)) return child;
+      const childProps = {};
+      if (child.props && child.props.className === 'react-select-valid') {
+        childProps.onChange = this.onReactSelectChange;
+      }
+      childProps.children = this.recursiveCloneChildren(child.props.children);
+      return React.cloneElement(child, childProps);
     });
   }
 
@@ -125,7 +154,7 @@ export default class ValidForm extends Component {
 
     return (
       <form {...props} noValidate ref={this.formRef} onChange={e => this.onChange(e)} onSubmit={e => this.onSubmit(e)}>
-        {children}
+        {this.recursiveCloneChildren(children)}
       </form>
     );
   }
@@ -139,7 +168,6 @@ ValidForm.propTypes = {
   ref: PropTypes.any,
   children: PropTypes.node,
   method: PropTypes.string,
-  fetch: PropTypes.bool,
   data: PropTypes.object,
 };
 
@@ -151,6 +179,5 @@ ValidForm.defaultProps = {
   ref: null,
   children: null,
   method: '',
-  fetch: false,
   data: {},
 };

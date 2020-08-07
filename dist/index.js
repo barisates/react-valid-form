@@ -45,9 +45,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -69,6 +69,7 @@ function (_Component) {
     };
     _this.formRef = _react["default"].createRef();
     _this.formElements = [];
+    _this.onReactSelectChange = _this.onReactSelectChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -109,6 +110,15 @@ function (_Component) {
       }
     }
   }, {
+    key: "onReactSelectChange",
+    value: function onReactSelectChange(selected, element) {
+      this.setState(function (prevState) {
+        return {
+          form: _objectSpread({}, prevState.form, _defineProperty({}, element.name, selected.value))
+        };
+      });
+    }
+  }, {
     key: "onSubmit",
     value: function onSubmit(e) {
       e.preventDefault(); // get form fields from Ref
@@ -117,7 +127,20 @@ function (_Component) {
       var valid = true;
       var form = this.state.form;
       this.formElements.forEach(function (element) {
-        // get form field value
+        // for react-select validation
+        if (!element.name && element.id && element.id !== 'no-validation') {
+          if (!_rules["default"].required(form[element.id])) {
+            _utilities["default"].invalid(element, _warnings["default"].required(), true);
+
+            return;
+          }
+
+          _utilities["default"].valid(element, true);
+
+          return;
+        } // get form field value
+
+
         var elementValue = form[element.name]; // get form field validation rules
 
         var validationRules = _utilities["default"].validation(element, _rules["default"], _warnings["default"]);
@@ -141,18 +164,14 @@ function (_Component) {
       var _this$props = this.props,
           onSubmit = _this$props.onSubmit,
           novalid = _this$props.novalid,
-          nosubmit = _this$props.nosubmit,
-          fetch = _this$props.fetch;
+          nosubmit = _this$props.nosubmit;
 
       if (onSubmit && (novalid || !novalid && valid)) {
         onSubmit(e.target, form, valid);
       }
 
       if (!nosubmit && valid) {
-        if (fetch) {// TODO: FETCH
-        } else {
-          e.target.submit();
-        }
+        e.target.submit();
       }
 
       return false;
@@ -166,17 +185,39 @@ function (_Component) {
       var form = {}; // set default null
 
       this.formElements.forEach(function (element) {
-        form[element.name] = data[element.name];
-        document.getElementById("".concat(element.id)).value = data[element.name] || '';
+        var elementName = element.name || element.id;
+        form[elementName] = data[elementName];
+        var getElement = document.getElementById("".concat(element.id));
+
+        if (getElement) {
+          getElement.value = data[elementName] || '';
+        }
       });
       this.setState({
         form: form
       });
     }
   }, {
+    key: "recursiveCloneChildren",
+    value: function recursiveCloneChildren(children) {
+      var _this2 = this;
+
+      return _react["default"].Children.map(children, function (child) {
+        if (!_react["default"].isValidElement(child)) return child;
+        var childProps = {};
+
+        if (child.props && child.props.className === 'react-select-valid') {
+          childProps.onChange = _this2.onReactSelectChange;
+        }
+
+        childProps.children = _this2.recursiveCloneChildren(child.props.children);
+        return _react["default"].cloneElement(child, childProps);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props2 = this.props,
           onSubmit = _this$props2.onSubmit,
@@ -191,12 +232,12 @@ function (_Component) {
         noValidate: true,
         ref: this.formRef,
         onChange: function onChange(e) {
-          return _this2.onChange(e);
+          return _this3.onChange(e);
         },
         onSubmit: function onSubmit(e) {
-          return _this2.onSubmit(e);
+          return _this3.onSubmit(e);
         }
-      }), children);
+      }), this.recursiveCloneChildren(children));
     }
   }]);
 
@@ -212,7 +253,6 @@ ValidForm.propTypes = {
   ref: _propTypes["default"].any,
   children: _propTypes["default"].node,
   method: _propTypes["default"].string,
-  fetch: _propTypes["default"].bool,
   data: _propTypes["default"].object
 };
 ValidForm.defaultProps = {
@@ -223,6 +263,5 @@ ValidForm.defaultProps = {
   ref: null,
   children: null,
   method: '',
-  fetch: false,
   data: {}
 };
