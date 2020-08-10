@@ -128,7 +128,7 @@ function (_Component) {
       var form = this.state.form;
       this.formElements.forEach(function (element) {
         // for react-select validation
-        if (!element.name && element.id && element.id !== 'no-validation') {
+        if (!element.name && element.id && !element.id.includes('no-validation')) {
           if (!_rules["default"].required(form[element.id])) {
             _utilities["default"].invalid(element, _warnings["default"].required(), true);
 
@@ -207,6 +207,10 @@ function (_Component) {
         var childProps = {};
 
         if (child.props && child.props.className === 'react-select-valid') {
+          if (child.props.inputId === 'no-validation') {
+            childProps.inputId = "no-validation-".concat(Math.random().toString(36).substring(7));
+          }
+
           childProps.onChange = _this2.onReactSelectChange;
         }
 

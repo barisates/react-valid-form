@@ -70,7 +70,7 @@ export default class ValidForm extends Component {
 
     this.formElements.forEach(element => {
       // for react-select validation
-      if (!element.name && element.id && element.id !== 'no-validation') {
+      if (!element.name && element.id && !element.id.includes('no-validation')) {
         if (!Rules.required(form[element.id])) {
           Utilities.invalid(element, Warnings.required(), true);
           return;
@@ -142,6 +142,9 @@ export default class ValidForm extends Component {
       if (!React.isValidElement(child)) return child;
       const childProps = {};
       if (child.props && child.props.className === 'react-select-valid') {
+        if (child.props.inputId === 'no-validation') {
+          childProps.inputId = `no-validation-${Math.random().toString(36).substring(7)}`;
+        }
         childProps.onChange = this.onReactSelectChange;
       }
       childProps.children = this.recursiveCloneChildren(child.props.children);
