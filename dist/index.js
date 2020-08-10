@@ -111,12 +111,14 @@ function (_Component) {
     }
   }, {
     key: "onReactSelectChange",
-    value: function onReactSelectChange(selected, element) {
+    value: function onReactSelectChange(selected, element, onChange) {
       this.setState(function (prevState) {
         return {
           form: _objectSpread({}, prevState.form, _defineProperty({}, element.name, selected.value))
         };
-      });
+      }); // trigger real event
+
+      if (onChange) onChange(selected, element);
     }
   }, {
     key: "onSubmit",
@@ -186,11 +188,14 @@ function (_Component) {
 
       this.formElements.forEach(function (element) {
         var elementName = element.name || element.id;
-        form[elementName] = data[elementName];
-        var getElement = document.getElementById("".concat(element.id));
 
-        if (getElement) {
-          getElement.value = data[elementName] || '';
+        if (!elementName.includes('no-validation')) {
+          form[elementName] = data[elementName];
+          var getElement = document.getElementById("".concat(element.id));
+
+          if (getElement) {
+            getElement.value = data[elementName] || '';
+          }
         }
       });
       this.setState({
@@ -211,7 +216,9 @@ function (_Component) {
             childProps.inputId = "no-validation-".concat(Math.random().toString(36).substring(7));
           }
 
-          childProps.onChange = _this2.onReactSelectChange;
+          childProps.onChange = function (selected, element) {
+            return _this2.onReactSelectChange(selected, element, child.props.onChange);
+          };
         }
 
         childProps.children = _this2.recursiveCloneChildren(child.props.children);
