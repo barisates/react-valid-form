@@ -153,8 +153,9 @@ export const Demo = () => {
                   </label>
                   <Select
                     name="reactSelect"
-                    inputId="reactSelect"
+                    inputId="no-validation"
                     className="react-select-valid"
+                    onChange={(selected, element) => console.log(selected, element)}
                     options={[
                       { label: 'Option 1', value: '1' },
                       { label: 'Option 2', value: '2' },

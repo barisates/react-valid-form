@@ -52,10 +52,12 @@ export default class ValidForm extends Component {
     }
   }
 
-  onReactSelectChange(selected, element) {
+  onReactSelectChange(selected, element, onChange) {
     this.setState(prevState => ({
       form: { ...prevState.form, [element.name]: selected.value },
     }));
+    // trigger real event
+    if (onChange) onChange(selected, element);
   }
 
   onSubmit(e) {
@@ -122,13 +124,14 @@ export default class ValidForm extends Component {
     // set default null
     this.formElements.forEach(element => {
       const elementName = element.name || element.id;
+      if (!elementName.includes('no-validation')) {
+        form[elementName] = data[elementName];
 
-      form[elementName] = data[elementName];
+        const getElement = document.getElementById(`${element.id}`);
 
-      const getElement = document.getElementById(`${element.id}`);
-
-      if (getElement) {
-        getElement.value = (data[elementName] || '');
+        if (getElement) {
+          getElement.value = (data[elementName] || '');
+        }
       }
     });
 
@@ -145,7 +148,7 @@ export default class ValidForm extends Component {
         if (child.props.inputId === 'no-validation') {
           childProps.inputId = `no-validation-${Math.random().toString(36).substring(7)}`;
         }
-        childProps.onChange = this.onReactSelectChange;
+        childProps.onChange = (selected, element) => this.onReactSelectChange(selected, element, child.props.onChange);
       }
       childProps.children = this.recursiveCloneChildren(child.props.children);
       return React.cloneElement(child, childProps);
