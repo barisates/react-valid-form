@@ -15,7 +15,7 @@ const Utilities = {
   },
   formType: type => {
     // hidden field exclude
-    const types = ['hidden'];
+    const types = [];
 
     return !types.includes(type);
   },

@@ -20,7 +20,7 @@ var Utilities = {
   },
   formType: function formType(type) {
     // hidden field exclude
-    var types = ['hidden'];
+    var types = [];
     return !types.includes(type);
   },
   // get form fields from Ref
