@@ -75,6 +75,7 @@ export default class ValidForm extends Component {
       if (!element.name && element.id && !element.id.includes('no-validation')) {
         if (!Rules.required(form[element.id])) {
           Utilities.invalid(element, Warnings.required(), true);
+          valid = false;
           return;
         }
         Utilities.valid(element, true);

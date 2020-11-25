@@ -134,6 +134,7 @@ function (_Component) {
           if (!_rules["default"].required(form[element.id])) {
             _utilities["default"].invalid(element, _warnings["default"].required(), true);
 
+            valid = false;
             return;
           }
 
