@@ -37,7 +37,7 @@ export default class ValidForm extends Component {
     const { onChange } = this.props;
 
     // is it form field?
-    if (Utilities.formFields(element.tagName)) {
+    if (Utilities.formFields(element.tagName) && !element.className.includes('manual-stated-field')) {
       // checkbox value
       const value = (element.type === 'checkbox' && !element.checked ? '' : element.value);
 
@@ -82,7 +82,7 @@ export default class ValidForm extends Component {
         return;
       }
       // get form field value
-      const elementValue = form[element.name];
+      const elementValue = element.value;
 
       // get form field validation rules
       const validationRules = Utilities.validation(element, Rules, Warnings);
