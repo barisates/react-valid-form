@@ -128,7 +128,7 @@ export default class ValidForm extends Component {
       if (!elementName.includes('no-validation')) {
         form[elementName] = data[elementName];
 
-        const getElement = document.getElementById(`${element.id}`);
+        const getElement = this.formRef.current.elements[`${element.id}`];
 
         if (getElement) {
           getElement.value = (data[elementName] || '');

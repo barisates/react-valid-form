@@ -182,6 +182,8 @@ function (_Component) {
   }, {
     key: "setDefaultValue",
     value: function setDefaultValue() {
+      var _this2 = this;
+
       // get form fields from Ref
       this.formElements = _utilities["default"].elements(this.formRef);
       var data = this.props.data;
@@ -192,7 +194,8 @@ function (_Component) {
 
         if (!elementName.includes('no-validation')) {
           form[elementName] = data[elementName];
-          var getElement = document.getElementById("".concat(element.id));
+
+          var getElement = _this2.formRef.current.elements["".concat(element.id)];
 
           if (getElement) {
             getElement.value = data[elementName] || '';
@@ -206,7 +209,7 @@ function (_Component) {
   }, {
     key: "recursiveCloneChildren",
     value: function recursiveCloneChildren(children) {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react["default"].Children.map(children, function (child) {
         if (!_react["default"].isValidElement(child)) return child;
@@ -218,18 +221,18 @@ function (_Component) {
           }
 
           childProps.onChange = function (selected, element) {
-            return _this2.onReactSelectChange(selected, element, child.props.onChange);
+            return _this3.onReactSelectChange(selected, element, child.props.onChange);
           };
         }
 
-        childProps.children = _this2.recursiveCloneChildren(child.props.children);
+        childProps.children = _this3.recursiveCloneChildren(child.props.children);
         return _react["default"].cloneElement(child, childProps);
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$props2 = this.props,
           onSubmit = _this$props2.onSubmit,
@@ -244,10 +247,10 @@ function (_Component) {
         noValidate: true,
         ref: this.formRef,
         onChange: function onChange(e) {
-          return _this3.onChange(e);
+          return _this4.onChange(e);
         },
         onSubmit: function onSubmit(e) {
-          return _this3.onSubmit(e);
+          return _this4.onSubmit(e);
         }
       }), this.recursiveCloneChildren(children));
     }
