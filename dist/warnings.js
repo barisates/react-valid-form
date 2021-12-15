@@ -8,40 +8,40 @@ exports["default"] = void 0;
 /* Warnings */
 var Warnings = {
   required: function required() {
-    return 'This field is required.';
+    return 'Bu alan zorunludur.';
   },
   number: function number() {
-    return 'This field must be numeric.';
+    return 'Bu alan numerik olmalıdır.';
   },
   alphanumeric: function alphanumeric() {
-    return 'This field must be alphanumeric.';
+    return 'Bu alan alfanumerik olmalıdır.';
   },
   letters: function letters() {
-    return 'This field must be only letters.';
+    return 'Bu alan sadece harf olmalıdır.';
   },
   min: function min(_min) {
-    return "The minimum value of this field can be ".concat(_min, ".");
+    return "Bu alan\u0131n min. de\u011Feri ".concat(_min, " olabilir.");
   },
   max: function max(_max) {
-    return "The maximum value of this field can be ".concat(_max, ".");
+    return "Bu alan\u0131n min. de\u011Feri ".concat(_max, " olabilir.");
   },
   minlength: function minlength(length) {
-    return "This field must be at least ".concat(length, " characters.");
+    return "Bu alan en az ".concat(length, " karakter olmal\u0131d\u0131r.");
   },
   maxlength: function maxlength(length) {
-    return "This field must not exceed ".concat(length, " characters.");
+    return "Bu alan\u0131n uzunlu\u011Fu ".concat(length, " karakteri a\u015Fmamal\u0131d\u0131r.");
   },
   email: function email() {
-    return 'Enter a valid email address.';
+    return 'Geçerli bir email adresi giriniz.';
   },
   url: function url() {
-    return 'Enter a valid web address.';
+    return 'Geçerli bir web adresi giriniz.';
   },
   confirm: function confirm() {
-    return 'This field has the same value as the confirm field.';
+    return 'Bu alan onay alanıyla aynı değere sahip olmalıdır.';
   },
   regexp: function regexp() {
-    return 'This field must match the pattern.';
+    return 'Bu alan koşula uymamaktadır.';
   }
 };
 var _default = Warnings;
