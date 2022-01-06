@@ -167,6 +167,11 @@ export default class ValidForm extends Component {
   }
 }
 
+export {
+  Warnings,
+  Rules,
+};
+
 ValidForm.propTypes = {
   novalid: PropTypes.bool,
   nosubmit: PropTypes.bool,
